@@ -6,34 +6,19 @@
 //    {‘единицы’: 5, ‘десятки’: 4, ‘сотни’: 2}. Если число превышает 999,
 //    необходимо выдать соответствующее сообщение с помощью console.log и вернуть пустой объект.
 
-let a = 2 // Prompt не стал писать, вы просили его не писать), а так со всеми числами работает вроде :D
-
-let obj = {
-    единицы: 0,
-    десятки: 0,
-    сотни: 0
-}
-
-function transformation(num, obj) {
-    num = String(num)
-    if (num.length > 3) {
-        obj = {}
-        console.log('Введено число больше чем 999, возвращаем пустой объект:')
-        return console.log(obj)
-    } else {
-        num = num.split('').reverse()
-        let j = 0
-        for (let i in obj) {
-            if (obj[i] = num[j] === undefined) {
-                obj[i] = 0
-            } else obj[i] = num[j]
-            j++
-        }
+function getDigitsOfNumber(num) {
+    if (!Number.isInteger(num) || num < 0 || num > 999) {
+        console.log('Введите число больше 0 и меньше чем 999 ')
+        return {}
     }
-    return console.log(obj)
+    return {
+        единицы: num % 10,
+        десятки: Math.floor(num / 10) % 10,
+        сотни: Math.floor(num / 100)
+    }
 }
 
-transformation(a, obj)
+console.log(getDigitsOfNumber(798))
 
 // 2.Продолжить работу с интернет-магазином:
 // 2.1. В прошлом домашнем задании вы реализовали корзину на базе массивов.
@@ -45,32 +30,28 @@ transformation(a, obj)
 //     для корзины, но и для каталога. Стремиться нужно к тому, чтобы объект «Продукт» имел единую структуру для
 //     различных модулей сайта, но в разных местах давал возможность вызывать разные методы.
 
-let basket = {
-    Яблоки: {
-        price: 70,
-        quantity: 30
-    },
-    Апельсины: {
-        price: 110,
-        quantity: 15
-    },
-    Груши: {
-        price: 90,
-        quantity: 17
-    },
-    summBasket() {
-        let counter = 0
-        let emptyBasket = 0
-        for (let i in basket) {
-            counter++
-            if (counter < Object.keys(basket).length) {
-                let priceProducts = this[i].price * this[i].quantity
-                emptyBasket += priceProducts
-            } else break
+const basket = {
+    goods: [
+        {
+            product: 'Яблоки',
+            price: 70,
+            quantity: 30
+        },
+        {
+            product: 'Апельсины',
+            price: 110,
+            quantity: 15
+        },
+        {
+            product: 'Груши',
+            price: 90,
+            quantity: 17
         }
-        console.log(`Стоимость продуктов в корзине - ${emptyBasket} рублей`)
+    ],
+
+    summBasket() {
+        return this.goods.reduce((totalPrice, cartItem) => totalPrice + cartItem.price * cartItem.quantity, 0);
     }
 }
 
-
-basket.summBasket()
+console.log(basket.summBasket())
